@@ -36,32 +36,55 @@
 ////////////////////////////////////////////////////
 
 const block_number = document.querySelector(".block_number");
-const number = document.querySelector(".number");
+// const number = document.querySelector(".number");
 
 
-const blob = document.querySelector(".blob");
-const options = {
-    root: number,
-    // rootMargin: "0px 0px -50 % 0px",
-    // rootMargin: "-50px 0px -50px 0px",
-    // rootMargin: "0",
-    // threshold: 0
-    threshold: 0,
+
+const getRandomNumber = (min, max) => {
+    return Math.round(Math.random() * (max - min)) + min;
 }
 
 
+const foo = () => {
+    const blob = document.createElement('div');
+    blob.classList.add('blob');   ///точку надо убрать.
 
-const callback = function (entries, observer) {
+    blob.style.animation =
+        `q1 ${getRandomNumber(1, 4)}s linear forwards`;
 
-    console.log(entries[0].isIntersecting);
-    // console.log(observer);
-    // if (entries[0].isIntersecting) {
-    //     
-    // } else {
+    switch (getRandomNumber(0, 3)) {
+        case 0:
+            blob.style.left = getRandomNumber(0, 100) + "%";
+            blob.style.top = "0%";
+            break;
+        case 1:
+            blob.style.left = "0%";
+            blob.style.top = getRandomNumber(0, 100) + "%";
+            break;
+        case 2:
+            blob.style.left = getRandomNumber(0, 100) + "%";
+            blob.style.top = "100%";
+            break;
+        case 3:
+            blob.style.left = "100%";
+            blob.style.top = getRandomNumber(0, 100) + "%";
+            break;
+    }
 
-    // }
+
+
+    // размещаем в конце div class = unit
+    block_number.append(blob);
+
+    // setTimeout(() => {
+    //     block_number.removeChild();
+    // }, 500);
 
 }
 
-let observer = new IntersectionObserver(callback, options);
-observer.observe(blob);
+block_number.addEventListener();
+block_number.insertAdjacentHTML("beforeend", `
+<div class="fon" ></div >`)
+
+const anim = setInterval(foo, 500);
+
