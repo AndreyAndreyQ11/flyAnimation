@@ -35,56 +35,122 @@
 
 ////////////////////////////////////////////////////
 
-const block_number = document.querySelector(".block_number");
-// const number = document.querySelector(".number");
+target([
+    "Fuchsia",
+    "Red",
+    "Yellow",
+    "Green",
+],
+    1, 2, 3
+);
 
 
 
-const getRandomNumber = (min, max) => {
-    return Math.round(Math.random() * (max - min)) + min;
-}
+
+function target() {
+    const color = [
+        "Fuchsia",
+        "Red",
+        "Yellow",
+        "Green",
+    ];
+
+    let data = {
+        block_number: document.querySelector(".block_number"),
+        number: document.getElementsByClassName("number"),
+        fon: document.createElement('div'),
+        numberColor: NaN,
+        spaunBlobPermission: false,
+        animationOffTime: 2000,
+        minSpeedBlob: 300,
+        maxSpeedBlob: 1300,
+        spawnPoints: 2,
+    };
+    let { block_number, number, fon, numberColor, spaunBlobPermission, animationOffTime, minSpeedBlob, maxSpeedBlob, spawnPoints } = data;
 
 
-const foo = () => {
-    const blob = document.createElement('div');
-    blob.classList.add('blob');   ///точку надо убрать.
+    fon.classList.add('fon');
+    let animKey;
+    let animKeyStop;
 
-    blob.style.animation =
-        `q1 ${getRandomNumber(1, 4)}s linear forwards`;
 
-    switch (getRandomNumber(0, 3)) {
-        case 0:
-            blob.style.left = getRandomNumber(0, 100) + "%";
-            blob.style.top = "0%";
-            break;
-        case 1:
-            blob.style.left = "0%";
-            blob.style.top = getRandomNumber(0, 100) + "%";
-            break;
-        case 2:
-            blob.style.left = getRandomNumber(0, 100) + "%";
-            blob.style.top = "100%";
-            break;
-        case 3:
-            blob.style.left = "100%";
-            blob.style.top = getRandomNumber(0, 100) + "%";
-            break;
+    number[0].style.transitionDuration = animationOffTime + maxSpeedBlob - minSpeedBlob + "ms";
+
+    block_number.addEventListener("mouseenter", (e) => {
+        block_number.append(fon);
+        numberColor = checkForRepetition();
+        spaunBlobPermission = true;
+        spaunBlob();
+
+        animKey = setInterval(spaunBlob, 100);
+        animKeyStop = setTimeout(() => {
+            spaunBlobPermission = false;
+        }, animationOffTime)
+
+
+        number[0].style.color = color[numberColor];
+
+
+    });
+
+    block_number.addEventListener("mouseleave", (e) => {
+        number[0].style.color = "";
+        deleyBlob();
+    });
+
+
+    const spaunBlob = () => {
+        if (spaunBlobPermission) {
+
+            for (let i = 0; i < spawnPoints; i++) {
+
+                const blob = document.createElement('div');
+                blob.classList.add('blob');
+
+                blob.style.animation =
+                    `q1 ${getRandomNumber(minSpeedBlob, maxSpeedBlob)}ms ease-in forwards`;
+
+                switch (getRandomNumber(0, 3)) {
+                    case 0:
+                        blob.style.left = getRandomNumber(0, 100) + "%";
+                        blob.style.top = "0%";
+                        break;
+                    case 1:
+                        blob.style.left = "0%";
+                        blob.style.top = getRandomNumber(0, 100) + "%";
+                        break;
+                    case 2:
+                        blob.style.left = getRandomNumber(0, 100) + "%";
+                        blob.style.top = "100%";
+                        break;
+                    case 3:
+                        blob.style.left = "100%";
+                        blob.style.top = getRandomNumber(0, 100) + "%";
+                        break;
+                }
+                blob.style.backgroundColor = color[numberColor];
+                block_number.append(blob);
+            };
+        }
     }
 
+    const deleyBlob = () => {
+        clearTimeout(animKeyStop);
+        clearInterval(animKey);
+        block_number.innerHTML = number[0].outerHTML;
+    }
 
+    const getRandomNumber = (min, max) => {
+        return Math.round(Math.random() * (max - min)) + min;
+    };
 
-    // размещаем в конце div class = unit
-    block_number.append(blob);
+    const checkForRepetition = () => {
+        let x = Number;
 
-    // setTimeout(() => {
-    //     block_number.removeChild();
-    // }, 500);
+        do {
+            x = getRandomNumber(0, 3);
+        } while (numberColor == x);
 
+        return x;
+    };
 }
-
-block_number.addEventListener();
-block_number.insertAdjacentHTML("beforeend", `
-<div class="fon" ></div >`)
-
-const anim = setInterval(foo, 500);
-
