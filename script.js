@@ -61,10 +61,10 @@ function target() {
         fon: document.createElement('div'),
         numberColor: NaN,
         spaunBlobPermission: false,
-        animationOffTime: 2000,
-        minSpeedBlob: 300,
-        maxSpeedBlob: 1300,
-        spawnPoints: 2,
+        animationOffTime: 500,
+        minSpeedBlob: 250,
+        maxSpeedBlob: 350,
+        spawnPoints: 5,
     };
     let { block_number, number, fon, numberColor, spaunBlobPermission, animationOffTime, minSpeedBlob, maxSpeedBlob, spawnPoints } = data;
 
@@ -154,3 +154,14 @@ function target() {
         return x;
     };
 }
+
+const a = (x) => {
+    return "test1" + x;
+}
+const q1 = {
+    [a(1)]: 11,
+    [a(2)]: 22,
+    [a(3)]: 33,
+}
+
+console.log(q1[a(2)]);
